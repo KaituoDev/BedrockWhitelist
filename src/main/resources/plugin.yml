@@ -1,0 +1,20 @@
+api-version: 1.13
+name: BedrockWhitelist
+main: fun.kaituo.bedrockwhitelist.BedrockWhitelist
+version: 1.0
+
+commands:
+  whitelistb:
+    description: Whitelist command for bedrock players
+permissions:
+  whitelistbedrock.*:
+    default: op
+    description: Allow modification for bedrock players
+    children:
+      whitelistbedrock.add:
+        default: op
+        description: Permission to add bedrock player to whitelist
+
+      whitelistbedrock.remove:
+        default: op
+        description: Permission to remove bedrock player from whitelist
