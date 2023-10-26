@@ -90,7 +90,12 @@ public class BedrockWhitelistCommandExecutor implements CommandExecutor {
             try {
                 xuid = GeyserApiRequester.getXuid(args[1]);
             } catch (Exception e) {
-                commandSender.sendMessage("§c发生内部错误，请联系管理员处理");
+                commandSender.sendMessage(
+                        """
+                                §c发生内部错误，请联系管理员处理
+                                §f如果该玩家从未使用基岩版登录过，请让该玩家尝试进入服务器至少一次
+                                §f玩家尝试进入后，等待约半小时后再次尝试添加即可
+                                """);
                 e.printStackTrace();
                 return;
             }
@@ -98,7 +103,12 @@ public class BedrockWhitelistCommandExecutor implements CommandExecutor {
             try {
                 uuid = getUuidFromXuid(xuid);
             } catch (Exception e) {
-                commandSender.sendMessage("§c发生内部错误，请联系管理员处理");
+                commandSender.sendMessage(
+                        """
+                                §c发生内部错误，请联系管理员处理
+                                §f如果该玩家从未使用基岩版登录过，请让该玩家尝试进入服务器至少一次
+                                §f玩家尝试进入后，等待约半小时后再次尝试添加即可
+                                """);
                 e.printStackTrace();
                 return;
             }
