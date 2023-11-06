@@ -4,12 +4,18 @@ import fun.kaituo.bedrockwhitelist.command.BedrockWhitelistCommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BedrockWhitelist extends JavaPlugin {
-    BedrockWhitelistTabCompleter tabCompleter;
-    BedrockWhitelistCommandExecutor executor;
+    private String bedrockNamePrefix;
+
+    public String getBedrockNamePrefix() {
+        return bedrockNamePrefix;
+    }
 
     public void onEnable() {
-        executor = new BedrockWhitelistCommandExecutor(this);
-        tabCompleter = new BedrockWhitelistTabCompleter();
+        saveDefaultConfig();
+        bedrockNamePrefix = getConfig().getString("bedrock-name-prefix");
+
+        BedrockWhitelistCommandExecutor executor = new BedrockWhitelistCommandExecutor(this);
+        BedrockWhitelistTabCompleter tabCompleter = new BedrockWhitelistTabCompleter();
         getCommand("whitelistb").setExecutor(executor);
         getCommand("whitelistb").setTabCompleter(tabCompleter);
     }
