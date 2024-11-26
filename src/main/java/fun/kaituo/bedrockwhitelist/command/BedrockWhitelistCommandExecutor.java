@@ -136,14 +136,21 @@ public class BedrockWhitelistCommandExecutor implements CommandExecutor {
         if (!command.getName().equalsIgnoreCase("whitelistb")) {
             return false;
         }
-        if (args.length != 2) {
+        if (args.length < 2) {
             commandSender.sendMessage("§c指令参数错误！用法: /whitelistb add/remove <GamerTag>");
             return true;
         }
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             long xuid;
+            StringBuilder gamerTag = new StringBuilder();
+            for (int i = 1; i < args.length; i++) {
+                gamerTag.append(args[i]);
+                if (i < args.length - 1) {
+                    gamerTag.append(" ");
+                }
+            }
             try {
-                xuid = GeyserApiRequester.getXuid(args[1]);
+                xuid = GeyserApiRequester.getXuid(gamerTag.toString().replaceAll(" ", "%20"));
             } catch (Exception e) {
                 commandSender.sendMessage(
                         """
@@ -168,8 +175,8 @@ public class BedrockWhitelistCommandExecutor implements CommandExecutor {
                 return;
             }
             switch (args[0]) {
-                case "add" -> Bukkit.getScheduler().runTask(plugin, () -> addBedrockWhitelist(commandSender, uuid, plugin.getBedrockNamePrefix() + args[1]));
-                case "remove" -> Bukkit.getScheduler().runTask(plugin, () -> removeBedrockWhitelist(commandSender, uuid, plugin.getBedrockNamePrefix() + args[1]));
+                case "add" -> Bukkit.getScheduler().runTask(plugin, () -> addBedrockWhitelist(commandSender, uuid, plugin.getBedrockNamePrefix() + gamerTag.toString().replaceAll(" ", "_")));
+                case "remove" -> Bukkit.getScheduler().runTask(plugin, () -> removeBedrockWhitelist(commandSender, uuid, plugin.getBedrockNamePrefix() + gamerTag.toString().replaceAll(" ", "_")));
                 default -> commandSender.sendMessage("§c指令参数错误!用法: /whitelistb add/remove <GamerTag>");
             }
         });
